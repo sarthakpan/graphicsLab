@@ -173,12 +173,70 @@ void b_Circle(int xc, int yc, int r, int color)
         delay(200);
     }
 }
+void midellipse(int rx, int ry, int xc, int yc)
+{
+    float dx, dy, d1, d2, x, y;
+    x = 0;
+    y = ry;
+
+    d1 = (ry * ry) - (rx * rx * ry) + (0.25 * rx * rx);
+    dx = 2 * ry * ry * x;
+    dy = 2 * rx * rx * y;
+
+    while (dx < dy)
+    {
+        delay(100);
+        mypixel(x + xc, y + yc, 5);
+        mypixel(-x + xc, y + yc, 5);
+        mypixel(x + xc, -y + yc, 5);
+        mypixel(-x + xc, -y + yc, 5);
+
+        if (d1 < 0)
+        {
+            x++;
+            dx = dx + (2 * ry * ry);
+            d1 = d1 + dx + (ry * ry);
+        }
+        else
+        {
+            x++;
+            y--;
+            dx = dx + (2 * ry * ry);
+            dy = dy - (2 * rx * rx);
+            d1 = d1 + dx - dy + (ry * ry);
+        }
+    }
+    d2 = ((ry * ry) * ((x + 0.5) * (x + 0.5))) + ((rx * rx) * ((y - 1) * (y - 1))) - (rx * rx * ry * ry);
+    while (y >= 0)
+    {
+        delay(100);
+        mypixel(x + xc, y + yc, 5);
+        mypixel(-x + xc, y + yc, 5);
+        mypixel(x + xc, -y + yc, 5);
+        mypixel(-x + xc, -y + yc, 5);
+
+        if (d2 > 0)
+        {
+            y--;
+            dy = dy - (2 * rx * rx);
+            d2 = d2 + (rx * rx) - dy;
+        }
+        else
+        {
+            y--;
+            x++;
+            dx = dx + (2 * ry * ry);
+            dy = dy - (2 * rx * rx);
+            d2 = d2 + dx - dy + (rx * rx);
+        }
+    }
+}
 int main()
 {
     system("clear");
     int gd = DETECT;
     int gm, i, j, k, r, wy, wx;
-    int x1, y1, x2, y2;
+    int x1, y1, x2, y2, a, b;
     int choice = 1;
     int pixel_RES;
     while (choice)
@@ -188,6 +246,7 @@ int main()
         printf("4. Set two cursor & draw Bresenhem line\n");
         printf("5. Draw circle using Midpoint\n");
         printf("6. Draw circle using Bresenham\n");
+        printf("7. Draw ellipse\n");
         printf("\n\nEnter your choice :");
         scanf("%d", &choice);
         switch (choice)
@@ -243,7 +302,8 @@ int main()
             printf("Enter center: Limit (x:%d & y:%d) and radius", 640 / RES, 480 / RES);
             scanf("%d %d %d", &x1, &y1, &r);
             initgraph(&gd, &gm, "");
-            grid();
+            //grid();
+            circle(x1, y1, r);
             mp_Circle(x1, y1, r, YELLOW);
             getch();
 
@@ -253,11 +313,23 @@ int main()
             printf("Enter center: Limit (x:%d & y:%d) and radius", 640 / RES, 480 / RES);
             scanf("%d %d %d", &x1, &y1, &r);
             initgraph(&gd, &gm, "");
-            grid();
+            //grid();
             mypixel(x1, y1, WHITE);
-            mp_Circle(x1, y1, r, GREEN);
+            circle(x1, y1, r);
+            //mp_Circle(x1, y1, r, GREEN);
             delay(50);
             b_Circle(x1, y1, r, CYAN);
+            getch();
+            delay(1000);
+            closegraph();
+            break;
+        case 7:
+            printf("Enter center: Limit (x:%d & y:%d) and major and minor axis", 640 / RES, 480 / RES);
+            scanf("%d %d %d %d", &x1, &y1, &a, &b);
+            initgraph(&gd, &gm, "");
+            grid();
+            mypixel(x1, y1, 5);
+            midellipse(a, b, x1, y1);
             getch();
             delay(1000);
             closegraph();
