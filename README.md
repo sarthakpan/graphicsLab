@@ -24,3 +24,7 @@ Ripple B: The whole of ripple A needs to be reflected with respect to a central 
 Ripple C: Ripple 8 needs to be replicated downwards 5 times using translation.
 
 6.  Kaleidoscope:  Draw the square bounding box - using a linear colour beam which starts at an arbitrary point on one of the four walls, get reflected on each of the remaining walls, till it goes out of bounds automatically or exceeds a predefined rebound limit Then the next beam starts with a new colour, and the process ends when all colours have been exhausted.
+
+
+Author : Sarthak Pan
+All Rights Reserved
